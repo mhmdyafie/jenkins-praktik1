@@ -8,28 +8,28 @@ pipeline {
     environment {
         VENV = 'venv'
     }
-    
+
     stages {
         stage('Setup Environment & Install Dependencies') {
             steps {
                 sh '''
-                python -m venv $VENV
-                . $VENV/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
+                    python -m venv $VENV
+                    . $VENV/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                 '''
             }
         }
-        
+
         stage('Run Tests') {
             steps {
                 sh '''
-                . $VENV/bin/activate
-                pytest test_app.py
+                    . $VENV/bin/activate
+                    pytest test_app.py
                 '''
             }
         }
-        
+
         stage('Deploy') {
             when {
                 anyOf {
@@ -53,11 +53,10 @@ pipeline {
                     httpMode: 'POST',
                     contentType: 'APPLICATION_JSON',
                     requestBody: groovy.json.JsonOutput.toJson(payload),
-                    url: 'https://discordapp.com/api/webhooks/1381676018691084298/TWoAiwpE_3MpSoXFvcIakxiqfXFQL2G8Kq2vSz-HwspOdeTZ7RoXq9Rw9OQiMneQeboJ'
+                    url: 'https://discord.com/api/webhooks/1368300558699466824/da5JH5oV5gFL3vC1kQTSvTHZ0J5-tIkDiHQR1eWKe66128KBl4Vw2khxqxnHUkMqAQC-'
                 )
             }
         }
-
         failure {
             script {
                 def payload = [
@@ -67,7 +66,7 @@ pipeline {
                     httpMode: 'POST',
                     contentType: 'APPLICATION_JSON',
                     requestBody: groovy.json.JsonOutput.toJson(payload),
-                    url: 'https://discordapp.com/api/webhooks/1381676018691084298/TWoAiwpE_3MpSoXFvcIakxiqfXFQL2G8Kq2vSz-HwspOdeTZ7RoXq9Rw9OQiMneQeboJ'
+                    url: 'https://discord.com/api/webhooks/1368300558699466824/da5JH5oV5gFL3vC1kQTSvTHZ0J5-tIkDiHQR1eWKe66128KBl4Vw2khxqxnHUkMqAQC-'
                 )
             }
         }
